@@ -1,0 +1,24 @@
+services:
+  neo4j:
+    image: neo4j:latest
+    container_name: neo4j
+    environment:
+      NEO4J_AUTH: neo4j/testpass
+      NEO4J_server_default__listen__address: 0.0.0.0
+      NEO4J_server_memory_heap_initial__size: 512m
+      NEO4J_server_memory_heap_max__size: 1G
+      NEO4J_server_memory_pagecache_size: 512m
+      NEO4J_dbms_usage__report_enabled: "false"
+    volumes:
+      - ./neo4j-data:/data
+    networks:
+      - backend-net
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:7474:7474"
+      - "127.0.0.1:7687:7687"
+
+networks:
+  backend-net:
+    name: backend-net
+    driver: bridge
